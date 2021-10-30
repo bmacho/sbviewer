@@ -1,0 +1,101 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title> Starboard Notebook Viewer </title>
+        <meta name="viewport" content="width=device-width,initial-scale=1">
+        <link rel="icon" href="https://cdn.jsdelivr.net/npm/starboard-notebook@0.14.2/dist/favicon.ico">
+        <link href="https://cdn.jsdelivr.net/npm/starboard-notebook@0.14.2/dist/starboard-notebook.css" rel="stylesheet">
+		<link rel="preload" href="https://cdn.jsdelivr.net/npm/starboard-notebook@0.14.2/dist/starboard-notebook.js" as="script">
+    </head>
+    
+    <body>
+        <script>
+			
+			var searchParams = new URLSearchParams(window.location.search)
+			notebookPlace = searchParams.get( 'sb' ) ? searchParams.get( 'sb' ) : "index.sb"
+						
+			
+            window.initialNotebookContent = ` `;
+            errorNotebookContent = `# %% [markdown]\n# Something happened\n\nWe couldn't load the notebook`
+            window.starboardArtifactsUrl = `https://cdn.jsdelivr.net/npm/starboard-notebook@0.14.2/dist/`;
+
+
+			function file_extension_handler ( file_source ) {
+				
+				// handles some different file extensions such as .md, .js 
+				// returns a string -> string function, 
+				// according to the file name ( sb_source )
+				
+				if (file_source.substr(-3) == ".md")
+					return (text) => "# %% [markdown]\n" + text
+
+				if (file_source.substr(-3) == ".js")
+					return (text) => "# %% [javascript]\n" + text
+				
+				return (text) => text
+			}
+
+            async function getNotebookContent( notebookURL ) {
+				console.info( notebookURL )
+				notebookContent = await fetch( notebookURL )
+					.then( response => {
+						if (response.ok) {
+							return response
+						} else {
+							throw new Error("ERROR")
+						}
+					})
+					.then( response => response.text() )
+					.then( nbText => nbText.replace(/\n$/, "") ) // removes last newline if there are any
+					.catch( () => errorNotebookContent )
+
+				return notebookContent
+			}
+			
+			function loadNotebook (content) {
+				console.info(content)
+				window.initialNotebookContent = content
+				
+				const notebook_js = document.createElement('script')
+				notebook_js.src = "https://cdn.jsdelivr.net/npm/starboard-notebook@0.14.2/dist/starboard-notebook.js"
+				document.head.appendChild( notebook_js )
+			}
+			
+			function notebookURLFromPlace ( place ) {				
+				//returns final URL, that can be fetched directly
+				
+				//recognices github/USER/REPO/blob/branchORcommit/filepath/filename 
+				//and returns https://raw.githubusercontent.com/USER/REPO/branchORcommit/filepath/filename 
+				
+				if ( place.substr(0,7) == "github/" ) {
+				
+					let _,user,repo, blob, branchORcommit, rest
+					[ _, user, repo, blob, branchORcommit, ...rest ] = place.split("/")
+					
+					return "https://raw.githubusercontent.com/" + [user, repo, branchORcommit, rest.join("/") ].join("/")
+				}
+				
+				//recognices gist/USER/GIST/?version/?filename 
+				//and returns https://gist.githubusercontent.com/USER/GIST/raw/?version/?filename
+				if ( place.substr(0,5) == "gist/" ) {
+				
+					let _, user, gist, rest
+					[ _, user, gist, ...rest] = place.split("/")
+					
+					return "https://gist.githubusercontent.com/" + [user, gist, "raw", rest.join("/")].join("/")
+				}
+				
+				return place
+			
+			}
+			
+			notebookURL = notebookURLFromPlace ( notebookPlace )
+			
+			getNotebookContent( notebookURL )
+			.then( file_extension_handler( notebookPlace) )
+			.then( loadNotebook )
+			
+        </script>
+    </body>
+</html>

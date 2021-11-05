@@ -20,7 +20,7 @@ https://bmacho.github.io/sbviewer/?sb=github/USER/REPO/BLOB/BRANCHorCOMMIT/FILEP
 
 - You also can use any other URL that your browser can get, http urls, or relative paths. e.g.:  
   - https://bmacho.github.io/sbviewer/?sb=README.md
-should open README.md in the same folder: https://bmacho.github.io/sbviewer/README.md . You can use this if you place the index.html file in a local folder (needs a webserver bc of CORS), or on an own website (e.g. github pages).
+should open README.md in the same folder: https://bmacho.github.io/sbviewer/README.md . You can use this if you place the index.html file in a local folder (needs a webserver because of CORS), or on an own website (e.g. github pages).
 
 **Features/automatisms**
 - If the file extension is md/js, it creates a markdown/javascript cell. (Does not recognise the file type, if there is no extension.)

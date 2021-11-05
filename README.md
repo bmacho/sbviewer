@@ -1,7 +1,7 @@
 # sbviewer
 
 **What's this?** 
-A viewer for [Starboard](https://starboard.gg/) files hosted on github/gist, in the spirit of nbviewer for jupyter files. 
+A viewer for [Starboard](https://starboard.gg/) files hosted on github/gist, in the spirit of [nbviewer](https://nbviewer.org/) for jupyter files. 
 
 **How to use it?** 
 Just open/share 

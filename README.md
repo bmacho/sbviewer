@@ -25,6 +25,8 @@ should open index.sb in the same folder, if you host the index.html file in a lo
 **Features/automatisms**
 - If the file extension is md/js, it creates a markdown/javascript cell. (Does not recognise the file type, if there is no extension.)
 - Trims down trailing newline characters from the last cell, because my text editor attaches to the ends of files, and it looks ugly when opened. 
+- If no sb source given, it defaults to index.sb
+- 404 notebook: https://bmacho.github.io/sbviewer/?sb=VALID_NOTEBOOK_NAME_BUT_NOT_REACHABLE
 
 ### License 
 It's a very slightly modification of starboard-notebook, both the original, and all of my modification is licensed under MPL2. 

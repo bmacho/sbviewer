@@ -29,4 +29,4 @@ should open README.md in the same folder: https://bmacho.github.io/sbviewer/READ
 - 404 notebook: https://bmacho.github.io/sbviewer/?sb=github/bmacho/sbviewer/blob/main/VALID_NOTEBOOK_PATH_BUT_NOTHING_HERE
 
 ### License 
-It's a very slightly modification of starboard-notebook, both the original, and all of my modification is licensed under MPL2. 
+It's a very slightly modification of starboard-notebook, both the original, and all of my modification are licensed under MPL2. 
